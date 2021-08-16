@@ -24,15 +24,22 @@ int main()
     NewScreen.display();
     cout<<endl;
 
-	myScreen.reSize(16,16);
-	myScreen.display();
+	//Exercise 4.5
+	auto myScreen = Screen{9,9};
 	myScreen.clear(' ');
+	myScreen.Empty_Square(4,4,4);
+	myScreen.display();           // Display Empty Square
+    cout << endl;
 
-	myScreen.move(7,7);
-	myScreen.set("BIG");
-	myScreen.move(8,5);
-	myScreen.set("SCREEN");
-	myScreen.display();
+	myScreen.clear(' ');
+	myScreen.Empty_Square(4,4,10);
+	myScreen.display();           // Check for length error
+	cout<<endl;
+
+    myScreen.clear(' ');
+	myScreen.Empty_Square(11,1,10);
+	myScreen.display();           // Check for top-left corner co-ordinates error
+    cout<<endl;
 
 	return 0;
 }
