@@ -146,7 +146,12 @@ void Screen::reSize( string::size_type h, string::size_type w, char bkground )
 		string::size_type offset = w * ix; // row position
 		for ( string::size_type iy = 0; iy < width_; ++iy )
 			// for each column, assign the old value
-			_screen.at(offset + iy) = local[ local_pos++ ];
+			_screen.at(offset + iy) = local[ local_pos++ ]; // Exercise 4.2
+			                                                // The string class member function (at) returns a char of a string
+			                                                // by reference and not a duplicate of the char of that specified
+			                                                // string position. This means the assignment in line 172 prevents
+			                                                // duplication of string the local string leading to unwanted
+			                                                // memory allocation.
 	}
 
 	height_ = h;
@@ -193,7 +198,6 @@ string::size_type Screen::row() const
 	return (cursor_ + width_)/width_;
 }
 
-
 // Exercise 4.3
 void Screen::move(Direction dir)
 {
@@ -232,9 +236,7 @@ void Screen::Empty_Square(string::size_type row,string::size_type col,string::si
          false==this->IsVerticalDimensionValid(row,col,length_Size))
 
         {  cerr<<" length of square is invalid " ;    cout<<endl;}
-
     }
-
 }
 
 

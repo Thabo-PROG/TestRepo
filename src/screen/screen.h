@@ -57,7 +57,13 @@ public:
 	void set( char ch );
 
 	// write a string of characters on the screen starting at the current cursor position
-	void set( const string& s );
+	void set( const string& s );    // Exercise 4.2 --- Situation 3
+	                                // if a parameter of a member function set() is set to be const
+	                                // it means it cannot be changed by the member function set().
+	                                // The string s will remain unchanged during the set() function's
+	                                // operation .
+	                                // Any assignment done on the parameter/passed variable s within
+	                                // the set() function will result to an error.
 
 	// overwrite the entire screen with the specified character
 	void clear( char bkground = '#');
@@ -69,7 +75,11 @@ public:
 	void display() const;
 
 	// check whether the specified co-ordinates lie within the screen
-	bool checkRange(string::size_type row, string::size_type col) const;
+	bool checkRange(string::size_type row, string::size_type col) const; // Exercise 4.2 --- Situation 1
+	                                                                     // The member function checkRang()
+	                                                                     // is set to be a const function
+	                                                                     // meaning all member variables and paramters
+	                                                                     // used  by function cannot be mutated/changed
 
     // Exercise 4.3
 	// Move the cursor to any vertical or horizontal direction
@@ -91,7 +101,12 @@ public:
 private:
 	// constants
 	// 0 represents the top-left screen element
-	const string::size_type TOP_LEFT = 0;
+	const string::size_type TOP_LEFT = 0;       // Exercise 4.2---Situation 2
+	                                            // The member variable TOP_LEFT is set to be a const
+	                                            // variable in order to prevent it from being
+	                                            // changed by all the member functions of the Screen class
+	                                            // An Error will occur when doing an assignment on
+	                                            // the TOP_LEFT variable except during its declaration.
 
 	// private member functions
 	string::size_type remainingSpace() const;
