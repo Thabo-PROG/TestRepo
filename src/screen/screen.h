@@ -69,6 +69,10 @@ public:
 	// check whether the specified co-ordinates lie within the screen
 	bool checkRange(string::size_type row, string::size_type col) const;
 
+    // Exercise 4.3
+	// Move the cursor to any vertical or horizontal direction
+	void move(Direction dir);
+
     // Exercise 4.5
 	// Private Helper functions for the Empty_Square function
 	// Checks if Horizontal Dimension of the Empty Square is valid

@@ -193,6 +193,31 @@ string::size_type Screen::row() const
 	return (cursor_ + width_)/width_;
 }
 
+
+// Exercise 4.3
+void Screen::move(Direction dir)
+{
+   Direction back__     = Direction::BACK;
+   Direction Down__     = Direction::DOWN;
+   Direction Home__     = Direction::HOME;
+   Direction End__      = Direction::END;
+   Direction Up__       = Direction::UP;
+   Direction Forward__  = Direction::FORWARD;
+
+   if(dir == back__)   { this->back();   }
+
+   if(dir == Down__)   { this->down();   }
+
+   if(dir == Home__)   { this->home();   }
+
+   if(dir == End__)    { this->end();    }
+
+   if(dir == Up__)     { this->up();     }
+
+   if(dir == Forward__){ this->forward();}
+
+}
+
 // Exercise 4.5
 void Screen::Empty_Square(string::size_type row,string::size_type col,string::size_type length_Size)
 {
