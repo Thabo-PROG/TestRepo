@@ -48,7 +48,8 @@ void Screen::up()
 }
 
 void Screen::down()
-{   // move cursor_ down one row of screen
+{
+    // move cursor_ down one row of screen
 
     // Exercise 4.4
 	// if cursor at bottom-right position of the screen , move cursor to top-left position of the screen
@@ -190,5 +191,64 @@ string::size_type Screen::row() const
 {
     // return current row
 	return (cursor_ + width_)/width_;
+}
+
+// Exercise 4.5
+void Screen::Empty_Square(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+    if (true == checkRange(row,col))
+    {
+        if( true==this->IsHorizontalDimensionValid(row,col,length_Size)&&
+          true==this->IsVerticalDimensionValid(row,col,length_Size)  )
+
+        {  this->Print_Square(row,col,length_Size);              }
+
+      else if ( false==this->IsHorizontalDimensionValid(row,col,length_Size)||
+         false==this->IsVerticalDimensionValid(row,col,length_Size))
+
+        {  cerr<<" length of square is invalid " ;    cout<<endl;}
+
+    }
+
+}
+
+
+// Exercise 4.5
+bool Screen::IsHorizontalDimensionValid(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+    if ((row+length_Size)/width_<1)
+    {    return true;                       }
+
+    else { return false;  }
+}
+
+// Exercise 4.5
+bool Screen::IsVerticalDimensionValid(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+    if ((col+length_Size)/height_ <1)
+    {   return true;                        }
+
+    else { return false;  }
+}
+
+// Exercise 4.5
+void Screen::Print_Square(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+      move(row,col);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { set('*');move(Direction::FORWARD);  }
+
+      move(row,col);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { move(Direction::DOWN); set('*');    }
+
+      move(row+length_Size-1,col);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { move(Direction::FORWARD); set('*'); }
+
+      move(row,col+length_Size-1);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { set('*'); move(Direction::DOWN);    }
+
 }
 
