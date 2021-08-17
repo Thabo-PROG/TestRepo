@@ -31,10 +31,16 @@ void Screen::back()
 }
 
 void Screen::up()
-{   // move cursor_ up one row of screen
-	// do not wrap around
-	if ( row() == 1 ) // at top?
-		cerr << "Screen::up - Cannot wrap around in a vertical direction" << endl;
+{
+    // move cursor_ up one row of screen
+    // Exercise 4.4
+	// if cursor at top-left position of the screen , move cursor to bottom-right position of the screen
+	if ( cursor_ == 0)
+       this->end();
+
+	else if ( row() == 1 ) // at top?
+      cursor_ += width_*(height_-1)-1;
+
 	else
 		cursor_ -= width_;
 
@@ -42,16 +48,22 @@ void Screen::up()
 }
 
 void Screen::down()
-{   // move cursor_ down one row of screen
-	// do not wrap around
-	if ( row() == height_ ) // at bottom?
-		cerr << "Screen::down - Cannot wrap around in a vertical direction" << endl;
+{
+    // move cursor_ down one row of screen
+
+    // Exercise 4.4
+	// if cursor at bottom-right position of the screen , move cursor to top-left position of the screen
+    if ( cursor_ == (height_-1)*width_ )
+         this->home();
+
+	if ( row()  == height_ ) // at bottom?
+         cursor_-= width_*(height_-1);
+
 	else
 		cursor_ += width_;
 
 	return;
 }
-
 void Screen::move( string::size_type row, string::size_type col )
 {   // move cursor_ to absolute position
 	// valid screen position?
@@ -85,9 +97,9 @@ void Screen::set( char ch )
 void Screen::set( const string& s )
 {   // write string beginning at current cursor_ position
 	auto space = remainingSpace();
-	auto len = s.size();
+	auto len   = s.size();
 	if ( space < len ) {
-		cerr << "Screen::set - Truncating, "
+       cerr << "Screen::set - Truncating, "
 			<< "space available: " << space
 			<< ", string length: " << len
 			<< endl;
@@ -101,21 +113,23 @@ void Screen::set( const string& s )
 }
 
 void Screen::clear( char bkground )
-{   // reset the cursor and clear the screen
+{
+    // reset the cursor and clear the screen
 	cursor_ = TOP_LEFT;
 	// assign the string
 	_screen.assign(
-		// with size() characters
-		_screen.size(),
-		// of value bkground
-		bkground
-		);
+    // with size() characters
+    _screen.size(),
+    // of value bkground
+    bkground
+		         );
 
 	return;
 }
 
 void Screen::reSize( string::size_type h, string::size_type w, char bkground )
-{   // can only *increase* a screen's size to height h and width w
+{
+    // can only *increase* a screen's size to height h and width w
 	// remember the content of the screen
 	string local{_screen};
 	auto local_pos = TOP_LEFT;
@@ -132,7 +146,12 @@ void Screen::reSize( string::size_type h, string::size_type w, char bkground )
 		string::size_type offset = w * ix; // row position
 		for ( string::size_type iy = 0; iy < width_; ++iy )
 			// for each column, assign the old value
-			_screen.at(offset + iy) = local[ local_pos++ ];
+			_screen.at(offset + iy) = local[ local_pos++ ]; // Exercise 4.2
+			                                                // The string class member function (at) returns a char of a string
+			                                                // by reference and not a duplicate of the char of that specified
+			                                                // string position. This means the assignment in line 172 prevents
+			                                                // duplication of string the local string leading to unwanted
+			                                                // memory allocation.
 	}
 
 	height_ = h;
@@ -156,7 +175,8 @@ void Screen::display() const
 }
 
 bool Screen::checkRange( string::size_type row, string::size_type col ) const
-{   // validate coordinates
+{
+    // validate coordinates
 	if (row < 1 || row > height_ || col < 1 || col > width_)
 	{
 		cerr << "Screen coordinates ("<< row << ", " << col << " ) out of bounds.\n";
@@ -166,13 +186,96 @@ bool Screen::checkRange( string::size_type row, string::size_type col ) const
 }
 
 string::size_type Screen::remainingSpace() const
-{   // includes current position
-	auto size = width_ * height_;
+{
+    // includes current position
+	auto size = width_ * height_   ;
 	return(size - cursor_);
 }
 
 string::size_type Screen::row() const
-{   // return current row
+{
+    // return current row
 	return (cursor_ + width_)/width_;
+}
+
+// Exercise 4.3
+void Screen::move(Direction dir)
+{
+   Direction back__     = Direction::BACK;
+   Direction Down__     = Direction::DOWN;
+   Direction Home__     = Direction::HOME;
+   Direction End__      = Direction::END;
+   Direction Up__       = Direction::UP;
+   Direction Forward__  = Direction::FORWARD;
+
+   if(dir == back__)   { this->back();   }
+
+   if(dir == Down__)   { this->down();   }
+
+   if(dir == Home__)   { this->home();   }
+
+   if(dir == End__)    { this->end();    }
+
+   if(dir == Up__)     { this->up();     }
+
+   if(dir == Forward__){ this->forward();}
+
+}
+
+// Exercise 4.5
+void Screen::Empty_Square(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+    if (true == checkRange(row,col))
+    {
+        if( true==this->IsHorizontalDimensionValid(row,col,length_Size)&&
+          true==this->IsVerticalDimensionValid(row,col,length_Size)  )
+
+        {  this->Print_Square(row,col,length_Size);              }
+
+      else if ( false==this->IsHorizontalDimensionValid(row,col,length_Size)||
+         false==this->IsVerticalDimensionValid(row,col,length_Size))
+
+        {  cerr<<" length of square is invalid " ;    cout<<endl;}
+    }
+}
+
+
+// Exercise 4.5
+bool Screen::IsHorizontalDimensionValid(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+    if ((row+length_Size)/width_<1)
+    {    return true;                       }
+
+    else { return false;  }
+}
+
+// Exercise 4.5
+bool Screen::IsVerticalDimensionValid(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+    if ((col+length_Size)/height_ <1)
+    {   return true;                        }
+
+    else { return false;  }
+}
+
+// Exercise 4.5
+void Screen::Print_Square(string::size_type row,string::size_type col,string::size_type length_Size)
+{
+      move(row,col);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { set('*');move(Direction::FORWARD);  }
+
+      move(row,col);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { move(Direction::DOWN); set('*');    }
+
+      move(row+length_Size-1,col);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { move(Direction::FORWARD); set('*'); }
+
+      move(row,col+length_Size-1);
+      for(int i = 0 ; i<(length_Size-1) ; i++)
+      { set('*'); move(Direction::DOWN);    }
+
 }
 
