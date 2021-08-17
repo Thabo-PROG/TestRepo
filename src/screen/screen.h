@@ -105,6 +105,13 @@ private:
 
 #endif
 
+//  Exercise 4.6
+//  By implementing a 2D-array of a string type,it leads to a more intuitive Implementation of member functions.
+//  meaning easier locating characters in the screen and easier implementation of the functionality.
+//  Changes on the interface will lead to bugs/errors that will led to major changes to the class implementation,
+//  while changing only the implementation allows for efficiency in the performance , better functionality and easier comprehension of the code structure.
+
+
 //  Exercise 4.5
 //  The implementation of the overloaded move function needs access to the private member variables weight_ and height,
 //  which are used for error-evaluation.
