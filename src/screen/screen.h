@@ -86,6 +86,8 @@ public:
 	// Prints the Empty Square to the screen
     void Print_Square(string::size_type row,string::size_type col,string::size_type length_Size);
 
+    void Empty_Square(string::size_type row,string::size_type col,string::size_type sq_length);
+
 private:
 	// constants
 	// 0 represents the top-left screen element
