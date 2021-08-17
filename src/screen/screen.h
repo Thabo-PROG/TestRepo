@@ -12,6 +12,8 @@ using namespace std;
 // *size* of any string that can be held by the string class as well as any index into
 // the string.
 
+enum class Direction {END , HOME , DOWN , UP , BACK , FORWARD};
+
 class Screen {
 public:
 
