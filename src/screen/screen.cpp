@@ -31,10 +31,16 @@ void Screen::back()
 }
 
 void Screen::up()
-{   // move cursor_ up one row of screen
-	// do not wrap around
-	if ( row() == 1 ) // at top?
-		cerr << "Screen::up - Cannot wrap around in a vertical direction" << endl;
+{
+    // move cursor_ up one row of screen
+    // Exercise 4.4
+	// if cursor at top-left position of the screen , move cursor to bottom-right position of the screen
+	if ( cursor_ == 0)
+       this->end();
+
+	else if ( row() == 1 ) // at top?
+      cursor_ += width_*(height_-1)-1;
+
 	else
 		cursor_ -= width_;
 
@@ -43,15 +49,20 @@ void Screen::up()
 
 void Screen::down()
 {   // move cursor_ down one row of screen
-	// do not wrap around
-	if ( row() == height_ ) // at bottom?
-		cerr << "Screen::down - Cannot wrap around in a vertical direction" << endl;
+
+    // Exercise 4.4
+	// if cursor at bottom-right position of the screen , move cursor to top-left position of the screen
+    if ( cursor_ == (height_-1)*width_ )
+         this->home();
+
+	if ( row()  == height_ ) // at bottom?
+         cursor_-= width_*(height_-1);
+
 	else
 		cursor_ += width_;
 
 	return;
 }
-
 void Screen::move( string::size_type row, string::size_type col )
 {   // move cursor_ to absolute position
 	// valid screen position?
@@ -85,9 +96,9 @@ void Screen::set( char ch )
 void Screen::set( const string& s )
 {   // write string beginning at current cursor_ position
 	auto space = remainingSpace();
-	auto len = s.size();
+	auto len   = s.size();
 	if ( space < len ) {
-		cerr << "Screen::set - Truncating, "
+       cerr << "Screen::set - Truncating, "
 			<< "space available: " << space
 			<< ", string length: " << len
 			<< endl;
@@ -101,21 +112,23 @@ void Screen::set( const string& s )
 }
 
 void Screen::clear( char bkground )
-{   // reset the cursor and clear the screen
+{
+    // reset the cursor and clear the screen
 	cursor_ = TOP_LEFT;
 	// assign the string
 	_screen.assign(
-		// with size() characters
-		_screen.size(),
-		// of value bkground
-		bkground
-		);
+    // with size() characters
+    _screen.size(),
+    // of value bkground
+    bkground
+		         );
 
 	return;
 }
 
 void Screen::reSize( string::size_type h, string::size_type w, char bkground )
-{   // can only *increase* a screen's size to height h and width w
+{
+    // can only *increase* a screen's size to height h and width w
 	// remember the content of the screen
 	string local{_screen};
 	auto local_pos = TOP_LEFT;
@@ -156,7 +169,8 @@ void Screen::display() const
 }
 
 bool Screen::checkRange( string::size_type row, string::size_type col ) const
-{   // validate coordinates
+{
+    // validate coordinates
 	if (row < 1 || row > height_ || col < 1 || col > width_)
 	{
 		cerr << "Screen coordinates ("<< row << ", " << col << " ) out of bounds.\n";
@@ -166,13 +180,15 @@ bool Screen::checkRange( string::size_type row, string::size_type col ) const
 }
 
 string::size_type Screen::remainingSpace() const
-{   // includes current position
-	auto size = width_ * height_;
+{
+    // includes current position
+	auto size = width_ * height_   ;
 	return(size - cursor_);
 }
 
 string::size_type Screen::row() const
-{   // return current row
+{
+    // return current row
 	return (cursor_ + width_)/width_;
 }
 
