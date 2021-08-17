@@ -105,3 +105,9 @@ private:
 
 #endif
 
+//  Exercise 4.5
+//  The implementation of the overloaded move function needs access to the private member variables weight_ and height,
+//  which are used for error-evaluation.
+//
+//  The function is not part of the responsibilities of the Screen Class , Since as the responsibilities of
+//  the Screen class are based on rendering(Presentation Layer).
