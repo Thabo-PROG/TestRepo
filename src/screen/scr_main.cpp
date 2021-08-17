@@ -6,26 +6,40 @@ using namespace std;
 
 int main()
 {
-	auto myScreen = Screen{6,6};
-	myScreen.forward();
-	myScreen.set('*');
-	myScreen.down();
-	myScreen.set('*');
-	myScreen.move(3,3);
-	myScreen.set("---");
+	// Exercise 4.1
+    // Writing/Drawing letter T on the screen
+    auto NewScreen = Screen(6,6);
+    NewScreen.clear(' ');
+    NewScreen.set("******");
+    NewScreen.move(1,3);
 
-	myScreen.display();
-	cout << endl;
+    int i=0;
+    while(i<5)
+    {
+        NewScreen.down();
+        NewScreen.set('*');
+        i++;
+    }
 
-	myScreen.reSize(16,16);
-	myScreen.display();
+    NewScreen.display();
+    cout<<endl;
+
+	//Exercise 4.5
+	auto myScreen = Screen{9,9};
 	myScreen.clear(' ');
+	myScreen.Empty_Square(4,4,4);
+	myScreen.display();           // Display Empty Square
+    cout << endl;
 
-	myScreen.move(7,7);
-	myScreen.set("BIG");
-	myScreen.move(8,5);
-	myScreen.set("SCREEN");
-	myScreen.display();
+	myScreen.clear(' ');
+	myScreen.Empty_Square(4,4,10);
+	myScreen.display();           // Check for length error
+	cout<<endl;
+
+    myScreen.clear(' ');
+	myScreen.Empty_Square(11,1,10);
+	myScreen.display();           // Check for top-left corner co-ordinates error
+    cout<<endl;
 
 	return 0;
 }
